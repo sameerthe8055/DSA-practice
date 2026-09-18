@@ -1,7 +1,7 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         HashMap<Integer, Integer> hm = new HashMap<>();
-        int indexN1 = 0, indexN2 = 0;
+        int indexN1 = -1, indexN2 = -1;
         for(int i = 0; i < nums.length; i++){
             int need = target - nums[i];
             
