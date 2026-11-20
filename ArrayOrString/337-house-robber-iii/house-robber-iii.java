@@ -13,30 +13,34 @@
  *     }
  * }
  */
-import static java.lang.Math.max;
+ import static java.lang.Math.max;
 class Solution {
     public int rob(TreeNode root) {
-        int[] res = solve(root);
-        return max(res[0], res[1]);
-        
-        
+        HashMap<TreeNode, Integer> map = new HashMap<>();
+        solve(root, map);
+        return map.get(root);
     }
-    int[] solve(TreeNode root){
-        if(root == null) return new int[]{0, 0}; // rob, skip
-        
-        int[] left = solve(root.left);
-        int[] right = solve(root.right);
-        // rob = curr val + (i+2)val
-        int rob = (
-            root.val +
-            left[1] +
-            right[1]
-        );
-        // skip = (i+1) val
-        int skip = max(left[0], left[1]) +
-            max(right[0], right[1]);
 
-        return new int[] {rob, skip}; 
+    int solve(TreeNode root, HashMap<TreeNode, Integer> map){
+        if(root == null) return 0;
+        if(map.containsKey(root)){
+            return map.get(root);
+        }
+        // rob = val + i+2
+       int val = 0;
+       if(root.left != null){
+        val += solve(root.left.left, map) + solve(root.left.right, map);        
+       }
+       if(root.right != null){
+        val += solve(root.right.left, map) + solve(root.right.right, map);
+       }
+       int robOrSkip = max(
+        val + root.val,
+        solve(root.left, map) + solve(root.right, map)
+       );
+       map.put(root, robOrSkip);
+
+        return robOrSkip;
 
     }
 }
