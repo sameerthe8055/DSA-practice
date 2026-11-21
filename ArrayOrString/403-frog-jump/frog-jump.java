@@ -14,7 +14,8 @@ class Solution {
                     int jump = stone - lastStone;
 
                     // true next possible jumps from here{}
-                    for(int k = i+1; k < stones.length ; k++){
+                    int maxNextStone = stone + jump + 1;
+                    for(int k = i+1; k < stones.length && stones[k] <= maxNextStone ; k++){
                         int thisStone = stones[k];
                         if(thisStone == stone+jump) dp[k][i] = true;
                         else if(thisStone == stone+jump-1) dp[k][i] = true;
